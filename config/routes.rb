@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :videos, only: [:show], param: :video_id
+  resources :videos, only: [:create, :show], param: :video_id
   get 'videos/download/:video_id', to: 'videos#download', as: 'video_download'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
