@@ -7,9 +7,6 @@ class Video < ActiveRecord::Base
 
   def valid_date?
     date = upload_date_before_type_cast
-    unless date.size != 8
-      errors.add(:upload_date, "passed date is not 8 chars")
-    end
     begin
       Date.parse(date)
     rescue
