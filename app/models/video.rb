@@ -13,4 +13,8 @@ class Video < ActiveRecord::Base
       errors.add(:upload_date, "invalid date is passed")
     end
   end
+
+  def to_param
+    video_id
+  end
 end
