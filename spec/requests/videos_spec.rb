@@ -26,19 +26,19 @@ describe 'Videos' do
     end
   end
 
-  describe "GET /videos/download" do
+  describe "GET /videos/:video_id/download" do
     let(:video) { FactoryGirl.create(:video) }
 
     context "when file exists" do
       it 'should send mp3 data' do
-        get "/videos/download/#{video.video_id}"
+        get download_video_path(video)
         expect(response.body).to eq IO.binread(File.join(Rails.root, 'tmp', 'cache', 'downloads', video.video_id, "#{video.video_id}.mp3"))
       end
     end
 
     context "when file not exists" do
       it "should fail" do
-        get "/videos/download/hoge"
+        get "/videos/hoge/download"
         json = JSON.parse(response.body)
         expect(response).not_to be_success
         expect(response.status).to eq 412
