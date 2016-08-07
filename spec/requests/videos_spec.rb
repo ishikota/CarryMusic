@@ -2,17 +2,27 @@ require 'rails_helper'
 
 describe 'Videos' do
   describe 'GET /videos/:id' do
-    let(:video) { FactoryGirl.create(:video) }
+    let!(:video) { FactoryGirl.create(:video) }
+    context "when passed correct video id" do
+      it 'should success' do
+        get video_path(video)
+        expect(response).to be_success
+        expect(response.status).to eq 200
+      end
 
-    it 'should success' do
-      get video_path(video)
-      expect(response).to be_success
-      expect(response.status).to eq 200
+      it "should return model in json format" do
+        get video_path(video)
+        expect(response.body).to eq video.to_json
+      end
     end
 
-    it "should return model in json format" do
-      get video_path(video)
-      expect(response.body).to eq video.to_json
+    context "when passed invalid video id" do
+      it "should fail" do
+        get "/videos/hoge"
+        json = JSON.parse(response.body)
+        expect(response.status).to eq 404
+        expect(json["status"]).to eq 404
+      end
     end
   end
 

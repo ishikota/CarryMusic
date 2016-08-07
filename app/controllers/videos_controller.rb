@@ -15,7 +15,7 @@ class VideosController < ApplicationController
     if @video.present?
       render json: @video.to_json
     else
-      render text: "404 Not found", status: 404
+      render json: gen_error_response(404, "Video not found(You should create video before)"), status: 404
     end
   end
 
@@ -28,4 +28,5 @@ class VideosController < ApplicationController
       render text: "404 Not found", status: 404
     end
   end
+
 end
