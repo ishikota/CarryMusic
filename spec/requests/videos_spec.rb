@@ -37,11 +37,12 @@ describe 'Videos' do
 
   describe "POST /videos" do
     let(:params) { { video_id: video_id } }
+    let(:succ_response) { { :success => true, :model => video } }
 
     context "when download success" do
       let(:video) { FactoryGirl.create(:video) }
       before do
-        allow_any_instance_of(VideosHelper).to receive(:download_video).and_return video.to_json
+        allow_any_instance_of(VideosHelper).to receive(:download_video).and_return succ_response
       end
 
       let(:video_id) { FactoryGirl.attributes_for(:video)["video_id"] }
@@ -54,13 +55,18 @@ describe 'Videos' do
 
     context "when download failed" do
       let(:video_id) { "invalid_id" }
+      let(:error_response) { { :success => false, :reason => "hoge" } }
       before do
-        allow_any_instance_of(VideosHelper).to receive(:download_video).and_return nil
+        allow_any_instance_of(VideosHelper).to receive(:download_video).and_return error_response
       end
 
       it "should fail" do
         post videos_path, params: params
+        json = JSON.parse(response.body)
         expect(response).not_to be_success
+        expect(response.status).to eq 404
+        expect(json["status"]).to eq 404
+        expect(json["message"]).to eq error_response[:reason]
       end
     end
   end

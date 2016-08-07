@@ -2,11 +2,11 @@ class VideosController < ApplicationController
   include VideosHelper
 
   def create
-    info = download_video(params[:video_id])
-    if info.present?
-      render json: info
+    result = download_video(params[:video_id])
+    if result[:success]
+      render json: result[:model]
     else
-      render text: "Failed to download", status: 500
+      render json: gen_error_response(404, result[:reason]), status: 404
     end
   end
 

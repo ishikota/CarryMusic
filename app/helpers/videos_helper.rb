@@ -4,9 +4,13 @@ module VideosHelper
   def download_video(video_id)
     script_path = File.join(Rails.root, 'scripts', 'drop_video')
     info_path = File.join(Rails.root, 'tmp', 'cache', 'downloads', video_id, "#{video_id}.info.json")
-    `python #{script_path} --id #{video_id}`
-    info = JSON.parse(File.read(info_path))
-    gen_model_from_info(info)
+    output = `python #{script_path} --id #{video_id}`
+    if File.exist?(info_path)
+      info = JSON.parse(File.read(info_path))
+      { :success => true, :model => gen_model_from_info(info) }
+    else
+      { :success => false, :reason => output }
+    end
   end
 
   private
