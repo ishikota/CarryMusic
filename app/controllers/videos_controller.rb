@@ -25,7 +25,7 @@ class VideosController < ApplicationController
       audio_path = File.join(Rails.root, 'tmp', 'cache', 'downloads', @video.video_id, "#{@video.video_id}.mp3")
       send_file audio_path, :type => 'audio/mp3'
     else
-      render text: "404 Not found", status: 404
+     render json: gen_error_response(412, "You should create video before download"), status: 412
     end
   end
 

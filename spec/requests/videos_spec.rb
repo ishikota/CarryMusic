@@ -39,8 +39,10 @@ describe 'Videos' do
     context "when file not exists" do
       it "should fail" do
         get "/videos/download/hoge"
+        json = JSON.parse(response.body)
         expect(response).not_to be_success
-        expect(response.status).to eq 404
+        expect(response.status).to eq 412
+        expect(json["status"]).to eq 412
       end
     end
   end
