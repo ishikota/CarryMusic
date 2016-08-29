@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+import youtube_dl
+import os
+import sys
+import argparse
+
+RAILS_ROOT = os.path.join(os.path.dirname(__file__), "..")
+DROP_DEST = os.path.join(RAILS_ROOT, "tmp", "cache", "downloads")
+
+def parse_args():
+  parser = argparse.ArgumentParser(description='Fetch playlist information in json format')
+  parser.add_argument('--id', required=True, help='playlist id to download information')
+  args = parser.parse_args()
+  return args.id
+
+def gen_options():
+  return {
+      "extract_flat" : True,
+      "dump_single_json" : True,
+      "quiet" : True
+      }
+
+def gen_error_message(error):
+  return "{ \"error\" : \"true\" }"
+
+def main():
+  playlist_id = parse_args()
+  ydl_opts = gen_options()
+  with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    try:
+      ydl.download(['https://www.youtube.com/playlist?list=%s' % playlist_id])
+    except youtube_dl.utils.DownloadError as e:
+      print gen_error_message(e)
+
+if __name__ == '__main__':
+  main()
+
