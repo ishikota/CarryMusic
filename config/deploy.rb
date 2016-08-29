@@ -4,7 +4,7 @@ lock '3.4.0'
 set :application, 'CarryMusicServer'
 set :repo_url, 'git@github.com:ishikota/CarryMusic-Server.git'
 set :branch, 'master'
-set :deploy_to, 'var/www/rails/carrymusic'
+set :deploy_to, '/var/www/rails/CarryMusic'
 set :linked_files, fetch(:linked_files, []).push('config/settings.yml')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 set :keep_releases, 5
