@@ -1,3 +1,6 @@
+server '52.197.203.125', user: 'ishikota', roles: %w{app db web}
+set :ssh_options, keys: '~/.ssh/carrymusic_key_rsa'
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
