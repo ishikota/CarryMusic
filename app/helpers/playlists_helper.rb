@@ -1,7 +1,7 @@
 module PlaylistsHelper
 
   def fetch_playlist_info(playlist_id)
-    script_path = File.join(Rails.root, 'scripts', 'fetch_playlist_info.py')
+    script_path = File.join(Rails.root, 'scripts', 'fetch_playlist_info')
     output = `python #{script_path} --id #{playlist_id}`
     json = JSON.parse(output)
     unless json["error"]
